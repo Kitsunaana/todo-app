@@ -11,7 +11,7 @@ export const useCaseRemoveTodo = () => {
   const removeTodoMutation = useMutation({
     mutationFn: (data: { todoId: string }) => todoService.remove(data),
     onMutate: (variables: { todoId: string }) => (
-      setRemovedIds(prev => [...prev, variables.todoId])
+      setRemovedIds((prev) => [...prev, variables.todoId])
     ),
     onSettled: async () => {
       await queryClient.invalidateQueries({

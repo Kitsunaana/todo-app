@@ -44,10 +44,17 @@ export const TodoList = () => {
             <ListItem
               {...other}
               key={key}
-              disabled={removeTodo.getIsDisabled(other.id)}
-              onToggle={(checked) => updateTodo.handleToggle({
+              disabled={(
+                removeTodo.getIsDisabled(other.id) ||
+                updateTodo.getIsDisabled(other.id)
+              )}
+              onToggle={(checked) => updateTodo.handleUpdate({
                 ...other,
                 completed: checked
+              })}
+              onUpdate={(caption) => updateTodo.handleUpdate({
+                ...other,
+                caption,
               })}
               onRemove={() => removeTodo.handleRemove({
                 todoId: other.id

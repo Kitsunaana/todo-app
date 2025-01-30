@@ -1,16 +1,19 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {todoService} from "./service.ts";
-import {FormEvent} from "react";
 import {todoQueryOptions} from "./query-options.ts";
 import {ITodo} from "../domain/types.ts";
 import {ITodoGetAllParams} from "../api/interface.ts";
+import {useState} from "react";
 
 export const useCaseUpdateTodo = (params: ITodoGetAllParams) => {
+  const [updatedIds, setUpdatedIds] = useState<string[]>([])
+
   const queryClient = useQueryClient()
 
   const updateTodoMutation = useMutation({
     mutationFn: (payload: ITodo) => todoService.update(payload),
     onMutate: async (updatedTodo: ITodo) => {
+      setUpdatedIds((prev) => [...prev, updatedTodo.id])
       // await queryClient.invalidateQueries({ queryKey: [todoQueryOptions.baseKey] })
 
       const queryKey = todoQueryOptions.getAllTodos(params).queryKey
@@ -44,9 +47,10 @@ export const useCaseUpdateTodo = (params: ITodoGetAllParams) => {
     },
   })
 
-  const handleToggle = (payload: ITodo) => updateTodoMutation.mutate(payload)
-
   return {
-    handleToggle,
+    handleUpdate: updateTodoMutation.mutate,
+    getIsDisabled: (todoId: string) => (
+      updateTodoMutation.isPending && updatedIds.includes(todoId)
+    ),
   }
 }

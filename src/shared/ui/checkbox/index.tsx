@@ -1,26 +1,28 @@
-import {ChangeEvent} from "react";
+import {ChangeEvent, InputHTMLAttributes} from "react";
+import clsx from "clsx";
 
 export const Checkbox = ({
-  checked,
-  name,
   onChange,
-}: {
-  checked: boolean
-  name: string
+  className,
+  ...other
+}: InputHTMLAttributes<HTMLInputElement> & {
   onChange: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void
 }) => {
   return (
     <div className="inline-flex items-center">
-      <label className="flex items-center cursor-pointer relative">
+      <label className={clsx("flex items-center cursor-pointer relative", {
+        "cursor-auto": other.disabled,
+      })}>
         <input
-          name={name}
           type="checkbox"
-          checked={checked}
           onChange={(event) => onChange(event, event.target.checked)}
           className="peer h-6 w-6 cursor-pointer transition-all appearance-none rounded-full bg-slate-100 shadow hover:shadow-md border border-slate-300 checked:bg-slate-100 checked:border-slate-800"
+          {...other}
         />
         <span
-          className="absolute text-slate-800 opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          className={clsx("absolute text-slate-800 opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2", {
+            "cursor-auto": other.disabled,
+          })}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
