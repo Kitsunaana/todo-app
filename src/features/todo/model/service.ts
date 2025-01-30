@@ -49,9 +49,13 @@ class TodoService {
   }
 
   public async remove(params: ITodoRemoveParams): Promise<boolean> {
-    const result = await this.todoListApi.remove(params)
+    try {
+      const result = await this.todoListApi.remove(params)
 
-    return todoRemoveResponseSchema.validate(result)
+      return todoRemoveResponseSchema.validate(result)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

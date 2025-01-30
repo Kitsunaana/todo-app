@@ -107,7 +107,7 @@ export const mockTodoListApi: ITodoListApi = {
   ),
 
   remove: async (params) => (
-    sleep(1000)
+    sleep(2000)
       .then(() => {
         const todos = readTodos()
         const todoIndex = findTodoIndex(params.todoId, todos)
