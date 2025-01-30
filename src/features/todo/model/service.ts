@@ -1,58 +1,65 @@
+import { ITodoListApi } from "../api/interface";
+import { mockTodoListApi } from "../api/mock-api";
 import {
-  todoFieldsSchema,
-  todoGetByIdSchema,
+  daysGetResponseSchema,
+  IDaysGetResponse,
+  ITodoCreateBody,
+  ITodoCreateResponse,
+  ITodoGetAllParams,
+  ITodoGetAllResponse,
+  ITodoRemoveParams,
+  ITodoRemoveResponse,
+  ITodoUpdateBody,
+  ITodoUpdateResponse,
+  todoCreateBodySchema,
+  todoCreateResponseSchema,
+  todoGetAllParamsSchema,
+  todoGetAllResponseSchema,
+  todoRemoveParamsSchema,
   todoRemoveResponseSchema,
-  todoSchema,
-  todosSchema
-} from "../domain/schemas";
-import { ITodo, ITodoFields } from "../domain/types";
-import {ITodoGetAllParams, ITodoGetByIdParams, ITodoListApi, ITodoRemoveParams} from "../api/interface"
-import { mockTodoListApi } from "../api/mock-api"
+  todoUpdateBodySchema,
+  todoUpdateResponseSchema
+} from "../domain/schemas.ts";
+
 
 class TodoService {
   public constructor(private readonly todoListApi: ITodoListApi) { }
 
-  public async getAll(params: ITodoGetAllParams): Promise<ITodo[]> {
-    const todos = await this.todoListApi.getAll(params)
+  public async getAll(params: ITodoGetAllParams): Promise<ITodoGetAllResponse> {
+    const validatedParams = todoGetAllParamsSchema.validateSync(params)
+    const todos = await this.todoListApi.getAll(validatedParams)
 
-    return todosSchema.validate(todos)
+    return todoGetAllResponseSchema.validate(todos)
   }
 
-  public async getDays(): Promise<string[]> {
-    return await this.todoListApi.getDays()
+  public async getDays(): Promise<IDaysGetResponse> {
+    const days = await this.todoListApi.getDays()
+
+    return daysGetResponseSchema.validateSync(days)
   }
 
-  public async getById(params: ITodoGetByIdParams): Promise<ITodo> {
-    const validateParam = todoGetByIdSchema.validateSync(params)
-    const todo = await this.todoListApi.getById(validateParam)
-
-    return todoSchema.validate(todo)
-  }
-
-  public async create(payload: { caption: string }): Promise<ITodo> {
+  public async create(payload: ITodoCreateBody): Promise<ITodoCreateResponse> {
+    const validatedPayload = todoCreateBodySchema.validateSync(payload)
     const createdTodo = await this.todoListApi.create({
-      ...payload,
+      ...validatedPayload,
       completed: false
     })
 
-    return todoSchema.validate(createdTodo)
+    return todoCreateResponseSchema.validate(createdTodo)
   }
 
-  public async update(payload: Partial<ITodo> & { id: string }): Promise<ITodo> {
-    // const validatePayload = await todoSchema.validate(payload)
-    const updatedTodo = await this.todoListApi.update(payload);
+  public async update(payload: ITodoUpdateBody): Promise<ITodoUpdateResponse> {
+    const validatedPayload = todoUpdateBodySchema.validateSync(payload)
+    const updatedTodo = await this.todoListApi.update(validatedPayload);
 
-    return todoSchema.validate(updatedTodo)
+    return todoUpdateResponseSchema.validate(updatedTodo)
   }
 
-  public async remove(params: ITodoRemoveParams): Promise<boolean> {
-    try {
-      const result = await this.todoListApi.remove(params)
+  public async remove(params: ITodoRemoveParams): Promise<ITodoRemoveResponse> {
+    const validatedParams = todoRemoveParamsSchema.validateSync(params)
+    const result = await this.todoListApi.remove(validatedParams)
 
-      return todoRemoveResponseSchema.validate(result)
-    } catch (error) {
-      console.log(error)
-    }
+    return todoRemoveResponseSchema.validate(result)
   }
 }
 
