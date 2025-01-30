@@ -9,7 +9,7 @@ export interface ITodoRemoveParams {
 }
 
 export interface ITodoGetAllParams {
-  date: string
+  date: string | null
 }
 
 export interface ITodoListApi {

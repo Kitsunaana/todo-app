@@ -19,7 +19,9 @@ export const TodoList = () => {
       sidebar={(
         <DaysList
           isLoading={days.isLoading}
-          days={days.data}
+          dates={days.data}
+          selectDate={getTodos.selectDate}
+          onSelectDate={getTodos.handleSelectDate}
         />
       )}
       todos={(

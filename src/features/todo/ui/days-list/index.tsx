@@ -1,11 +1,16 @@
 import {CalendarIcon} from "../../../../shared/ui";
+import clsx from "clsx";
 
 export const DaysList = ({
   isLoading,
-  days,
+  dates,
+  selectDate,
+  onSelectDate,
 }: {
   isLoading: boolean
-  days: string[] | undefined
+  dates: string[] | undefined
+  selectDate: string | null
+  onSelectDate: (date: string) => void
 }) => {
   if (isLoading) {
     return (
@@ -22,13 +27,16 @@ export const DaysList = ({
 
   return (
     <div className="flex flex-col gap-2">
-      {days?.map((day) => (
+      {dates?.map((date) => (
         <div
-          key={day}
-          className="flex items-center gap-2 transition duration-300 py-1 px-2 border border-slate-300 rounded-md cursor-pointer hover:bg-slate-300"
+          key={date}
+          onClick={() => onSelectDate(date)}
+          className={clsx("flex items-center gap-2 transition duration-300 py-1 px-2 border border-slate-300 rounded-md cursor-pointer hover:bg-slate-300", {
+            "border border-slate-400": selectDate === date
+          })}
         >
           <CalendarIcon fontSize={22} className="text-gray-500"/>
-          <span className="text-gray-700">{day}</span>
+          <span className="text-gray-700">{date}</span>
         </div>
       ))}
     </div>

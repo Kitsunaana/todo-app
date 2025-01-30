@@ -12,10 +12,10 @@ export const todoQueryOptions = {
     })
   ),
 
-  getAllTodos: ({ date }: ITodoGetAllParams = { date: null }) => (
+  getAllTodos: (params: ITodoGetAllParams) => (
     queryOptions({
-      queryKey: [todoQueryOptions.baseKey, "list", { date }],
-      queryFn: () => todoService.getAll()
+      queryKey: [todoQueryOptions.baseKey, "list", params],
+      queryFn: () => todoService.getAll(params)
     })
   )
 }
