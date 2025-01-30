@@ -19,7 +19,7 @@ class TodoService {
   }
 
   public async getDays(): Promise<string[]> {
-    return await this.todoListApi.getDays( )
+    return await this.todoListApi.getDays()
   }
 
   public async getById(params: ITodoGetByIdParams): Promise<ITodo> {
