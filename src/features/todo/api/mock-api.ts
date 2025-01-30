@@ -9,14 +9,14 @@ const STORAGE_KEY = "todos-kit"
 
 const initState = () => mockLocalStorage.add(STORAGE_KEY, [])
 
-const readTodos = () => {
+const readTodos = (): ITodo[] => {
   const todos = mockLocalStorage.get({
     key: STORAGE_KEY,
     parse: true,
   })
 
   const isValidTodos = todosSchema.isValidSync(todos)
-  if (isValidTodos) return todos
+  if (isValidTodos) return todos as ITodo[]
 
   initState()
   return []
