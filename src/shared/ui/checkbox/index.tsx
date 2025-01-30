@@ -1,11 +1,10 @@
-import {ChangeEvent, InputHTMLAttributes} from "react";
 import clsx from "clsx";
+import { ChangeEvent, InputHTMLAttributes } from "react";
 
 export const Checkbox = ({
   onChange,
-  className,
   ...other
-}: InputHTMLAttributes<HTMLInputElement> & {
+}: Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
   onChange: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void
 }) => {
   return (

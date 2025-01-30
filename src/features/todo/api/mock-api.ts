@@ -1,9 +1,9 @@
 import { nanoid } from "nanoid"
-import { sleep } from "../../../shared/utils"
 import { mockLocalStorage } from "../../../shared/local-storage"
-import { ITodoListApi } from "./interface"
-import { ITodo } from "../domain/types"
+import { sleep } from "../../../shared/utils"
 import { todosSchema } from "../domain/schemas"
+import { ITodo } from "../domain/types"
+import { ITodoListApi } from "./interface"
 
 const STORAGE_KEY = "todos-kit"
 
@@ -29,6 +29,8 @@ const findTodoIndex = (id: string, todos: ITodo[]) => {
   return todoIndex
 }
 
+const getDate = (createdAt: number) => new Date(createdAt).toLocaleDateString()
+
 export const mockTodoListApi: ITodoListApi = {
   getAll: async (params) => (
     sleep(1000)
@@ -37,11 +39,9 @@ export const mockTodoListApi: ITodoListApi = {
           .sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
 
         if (params?.date) {
-          return todos.filter((todo) => {
-            const todoDate = new Date(todo.createdAt).toLocaleDateString()
-
-            return todoDate === params.date
-          })
+          return todos.filter((todo) => (
+            getDate(todo.createdAt) === params.date
+          ))
         }
 
         return todos
@@ -56,21 +56,11 @@ export const mockTodoListApi: ITodoListApi = {
         return todos
           .sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
           .reduce<string[]>((result, todo) => {
-            const date = new Date(todo.createdAt).toLocaleDateString()
+            const todoDate = getDate(todo.createdAt)
 
-            if (result.includes(date)) return result
-            return result.concat(date)
+            if (result.includes(todoDate)) return result
+            return result.concat(todoDate)
           }, [])
-      })
-  ),
-
-  getById: async (params) => (
-    sleep(1000)
-      .then(() => {
-        const todos = readTodos()
-        const todoIndex = findTodoIndex(params.todoId, todos)
-
-        return todos[todoIndex]
       })
   ),
 

@@ -1,7 +1,8 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {todoService} from "./service.ts";
-import {FormEvent, useState} from "react";
-import {todoQueryOptions} from "./query-options.ts";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { ITodoRemoveParams } from "../domain/schemas.ts";
+import { todoQueryOptions } from "./query-options.ts";
+import { todoService } from "./service.ts";
 
 export const useCaseRemoveTodo = () => {
   const [removedIds, setRemovedIds] = useState<string[]>([])
@@ -9,8 +10,8 @@ export const useCaseRemoveTodo = () => {
   const queryClient = useQueryClient()
 
   const removeTodoMutation = useMutation({
-    mutationFn: (data: { todoId: string }) => todoService.remove(data),
-    onMutate: (variables: { todoId: string }) => (
+    mutationFn: (data: ITodoRemoveParams) => todoService.remove(data),
+    onMutate: (variables: ITodoRemoveParams) => (
       setRemovedIds((prev) => [...prev, variables.todoId])
     ),
     onSettled: async () => {

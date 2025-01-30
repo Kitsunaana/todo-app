@@ -1,9 +1,9 @@
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {todoService} from "./service.ts";
-import {todoQueryOptions} from "./query-options.ts";
-import {ITodo} from "../domain/types.ts";
-import {ITodoGetAllParams} from "../api/interface.ts";
-import {useState} from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { ITodoGetAllParams } from "../api/interface.ts";
+import { ITodoUpdateBody } from "../domain/schemas.ts";
+import { todoQueryOptions } from "./query-options.ts";
+import { todoService } from "./service.ts";
 
 export const useCaseUpdateTodo = (params: ITodoGetAllParams) => {
   const [updatedIds, setUpdatedIds] = useState<string[]>([])
@@ -11,8 +11,8 @@ export const useCaseUpdateTodo = (params: ITodoGetAllParams) => {
   const queryClient = useQueryClient()
 
   const updateTodoMutation = useMutation({
-    mutationFn: (payload: ITodo) => todoService.update(payload),
-    onMutate: async (updatedTodo: ITodo) => {
+    mutationFn: (payload: ITodoUpdateBody) => todoService.update(payload),
+    onMutate: async (updatedTodo: ITodoUpdateBody) => {
       setUpdatedIds((prev) => [...prev, updatedTodo.id])
       // await queryClient.invalidateQueries({ queryKey: [todoQueryOptions.baseKey] })
 
@@ -21,8 +21,8 @@ export const useCaseUpdateTodo = (params: ITodoGetAllParams) => {
 
       queryClient.setQueryData(
         queryKey,
-        (prevTodos: ITodo[]) => (
-          prevTodos.map((todo) => (
+        (prevTodos) => (
+          prevTodos?.map((todo) => (
             todo.id === updatedTodo.id ? { ...todo, ...updatedTodo } : todo
           ))
         )

@@ -1,5 +1,5 @@
-import {FormEvent} from "react";
-import {SaveIcon} from "../../../../shared/ui";
+import { FormEvent } from "react";
+import { SaveIcon } from "../../../../shared/ui";
 
 export const ListItemEdit = ({
   caption,

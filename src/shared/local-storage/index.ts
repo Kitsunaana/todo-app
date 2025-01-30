@@ -1,4 +1,4 @@
-import { IMockLocalStorage, ILocaleStorageGet } from "./interface"
+import { ILocaleStorageGet, IMockLocalStorage } from "./interface"
 
 export const mockLocalStorage: IMockLocalStorage = {
   get<T>(args: ILocaleStorageGet<T>): T {

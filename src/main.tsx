@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client'
-import "./shared/utils/array"
 import { App } from "./app"
+import "./shared/utils/array"
 
 createRoot(document.getElementById('root')!).render(
   <App />

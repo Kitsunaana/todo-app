@@ -1,6 +1,5 @@
-import {ITodo} from "../../domain/types.ts";
-import {TrashIcon} from "../../../../shared/ui";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
+import { ITodo } from "../../domain/types.ts";
 
 export const List = ({
   isLoading,
@@ -31,21 +30,6 @@ export const List = ({
           ...todo,
           key: todo.id,
         })
-        /*<div
-          key={todo.id}
-          className="p-2 bg-slate-100 rounded-md mr-1 flex items-center gap-3 justify-between"
-        >
-          <span>{todo.caption}</span>
-
-          <div className="flex items-center gap-2">
-            <button
-              disabled={true}
-              className="hover:bg-rose-100 disabled:text-rose-300 disabled:hover:bg-transparent disabled:cursor-auto cursor-pointer transition duration-300 text-rose-500 rounded-full p-1"
-            >
-              <TrashIcon fontSize={22} />
-            </button>
-          </div>
-        </div>*/
       ))}
     </div>
   )

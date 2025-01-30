@@ -1,5 +1,6 @@
-import {BurgerIcon, CalendarIcon} from "../../../../shared/ui";
-import {ReactNode} from "react";
+import { ReactNode } from "react";
+import { BurgerIcon, CalendarIcon } from "../../../../shared/ui";
+import {date} from "yup";
 
 type ListItemIconProps = {
   className: string
@@ -22,6 +23,8 @@ export const SidebarList = ({
   dates: string[] | undefined
   renderListItem: (props: ListItemProps) => ReactNode
 }) => {
+  // const currentDate = new Date().toLocaleDateString()
+
   if (isLoading) {
     return (
       <div className="flex flex-col gap-2">
@@ -46,6 +49,7 @@ export const SidebarList = ({
         )
       })}
 
+      {/*{(dates?.includes(currentDate) ? (dates || []) : [currentDate, ...(dates || [])]).map((date) => (*/}
       {dates?.map((date) => (
         renderListItem({
           date,

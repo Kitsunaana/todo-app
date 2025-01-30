@@ -1,7 +1,7 @@
-import {Checkbox, PenIcon, TrashIcon} from "../../../../shared/ui";
 import clsx from "clsx";
-import {useState} from "react";
-import {ListItemEdit} from "../list-item-edit";
+import { useState } from "react";
+import { Checkbox, PenIcon, TrashIcon } from "../../../../shared/ui";
+import { ListItemEdit } from "../list-item-edit";
 
 export const ListItem = ({
   caption,

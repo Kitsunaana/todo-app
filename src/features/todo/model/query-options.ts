@@ -1,6 +1,6 @@
-import {queryOptions} from "@tanstack/react-query";
-import {todoService} from "./service.ts";
-import {ITodoGetAllParams} from "../api/interface.ts";
+import { queryOptions } from "@tanstack/react-query";
+import { ITodoGetAllParams } from "../api/interface.ts";
+import { todoService } from "./service.ts";
 
 export const todoQueryOptions = {
   baseKey: "todos",
