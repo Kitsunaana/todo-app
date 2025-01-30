@@ -34,6 +34,7 @@ export const mockTodoListApi: ITodoListApi = {
     sleep(1000)
       .then(() => {
         const todos = readTodos()
+          .sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
 
         if (params?.date) {
           return todos.filter((todo) => {
@@ -52,12 +53,14 @@ export const mockTodoListApi: ITodoListApi = {
       .then(() => {
         const todos = readTodos()
 
-        return todos.reduce<string[]>((result, todo) => {
-          const date = new Date(todo.createdAt).toLocaleDateString()
+        return todos
+          .sort((a, b) => a.createdAt < b.createdAt ? 1 : -1)
+          .reduce<string[]>((result, todo) => {
+            const date = new Date(todo.createdAt).toLocaleDateString()
 
-          if (result.includes(date)) return result
-          return result.concat(date)
-        }, [])
+            if (result.includes(date)) return result
+            return result.concat(date)
+          }, [])
       })
   ),
 

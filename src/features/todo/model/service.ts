@@ -8,6 +8,9 @@ import {
 import { ITodo, ITodoFields } from "../domain/types";
 import {ITodoGetAllParams, ITodoGetByIdParams, ITodoListApi, ITodoRemoveParams} from "../api/interface"
 import { mockTodoListApi } from "../api/mock-api"
+import {createLogger} from "vite";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 class TodoService {
   public constructor(private readonly todoListApi: ITodoListApi) { }
@@ -29,9 +32,11 @@ class TodoService {
     return todoSchema.validate(todo)
   }
 
-  public async create(payload: ITodoFields): Promise<ITodo> {
-    const validatePayload = todoFieldsSchema.validateSync(payload)
-    const createdTodo = await this.todoListApi.create(validatePayload)
+  public async create(payload: { caption: string }): Promise<ITodo> {
+    const createdTodo = await this.todoListApi.create({
+      ...payload,
+      completed: false
+    })
 
     return todoSchema.validate(createdTodo)
   }

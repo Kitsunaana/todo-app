@@ -1,49 +1,39 @@
-import {todoService} from "../model/service.ts";
 import {DaysList} from "../ui/days-list";
+import {useCaseGetTodos} from "../model/use-case-get-todos.ts";
+import {Layout} from "../ui/layout";
+import {useCaseCreateTodo} from "../model/use-case-create-todo.ts";
+import {FormCreate} from "../ui/form-create";
+import {List} from "../ui/list/list.tsx";
+import {useQuery} from "@tanstack/react-query";
+import {todoQueryOptions} from "../model/query-options.ts";
 
 export const TodoList = () => {
-  // todoService.getAll().then(console.log)
+  const days = useQuery(todoQueryOptions.getTodoDays())
 
-  /* todoService
-      caption: "test",
-      completed: true,
-      description: "123",
-    })
-    .then(console.log) */
-
-
-  todoService.getDays()
-    // .then(console.log)
-
-  todoService.getAll({ date: "30.01.2025" })
-    // .then(console.log)
-
-  /*todoService.create({
-    caption: "Для теста",
-    completed: false,
-  })*/
-
-  /* todoService
-    .update({
-      id: "PKgi60duEezUCJbq1IdAj",
-      caption: "new caption test",
-      completed: false,
-      description: "qwe asd 123",
-      createdAt: 1738051193660,
-      updatedAt: 1738051193660
-    })
-    .then(console.log) */
-
-  /* todoService
-    .remove({ todoId: "PKgi60duEezUCJbq1IdAj" })
-    .then(console.log) */
+  const getTodos = useCaseGetTodos()
+  const createTodo = useCaseCreateTodo()
 
   return (
-    <div className="flex h-full">
-      <div className="bg-slate-100 h-full p-2 min-w-48">
-        <DaysList />
-      </div>
-      <div className="p-2">main</div>
-    </div>
+    <Layout
+      caption="Список задач"
+      sidebar={(
+        <DaysList
+          isLoading={days.isLoading}
+          days={days.data}
+        />
+      )}
+      todos={(
+        <List
+          isLoading={getTodos.isLoading}
+          todos={getTodos.todos}
+        />
+      )}
+      form={(
+        <FormCreate
+          isLoading={createTodo.isLoading}
+          handleCreate={createTodo.handleCreate}
+        />
+      )}
+    />
   )
 }

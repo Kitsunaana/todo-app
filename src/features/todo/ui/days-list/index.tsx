@@ -1,11 +1,13 @@
-import {useQuery} from "@tanstack/react-query";
 import {CalendarIcon} from "../../../../shared/ui";
-import {todoQueryOptions} from "../../model/query-options.ts";
 
-export const DaysList = () => {
-  const days = useQuery(todoQueryOptions.getTodoDays())
-
-  if (days.isLoading) {
+export const DaysList = ({
+  isLoading,
+  days,
+}: {
+  isLoading: boolean
+  days: string[] | undefined
+}) => {
+  if (isLoading) {
     return (
       <div className="flex flex-col gap-2">
         {Array.from({length: 5}, (_, i) => i).map((i) => (
@@ -20,7 +22,7 @@ export const DaysList = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      {days.data?.map((day) => (
+      {days?.map((day) => (
         <div
           key={day}
           className="flex items-center gap-2 transition duration-300 py-1 px-2 border border-slate-300 rounded-md cursor-pointer hover:bg-slate-300"
