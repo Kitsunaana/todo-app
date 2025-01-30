@@ -3,7 +3,6 @@ import * as yup from 'yup';
 export const todoFieldsSchema = yup
   .object({
     caption: yup.string().required(),
-    description: yup.string().default(""),
     completed: yup.boolean().default(false)
   })
   .required()

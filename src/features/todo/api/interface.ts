@@ -8,10 +8,15 @@ export interface ITodoRemoveParams {
   todoId: string
 }
 
+export interface ITodoGetAllParams {
+  date: string
+}
+
 export interface ITodoListApi {
-  getAll: () => Promise<ITodo[]>
+  getAll: (params?: ITodoGetAllParams) => Promise<ITodo[]>
   getById: (params: ITodoGetByIdParams) => Promise<ITodo>
   create: (payload: ITodoFields) => Promise<ITodo>
   update: (payload: ITodo) => Promise<ITodo>
   remove: (id: ITodoRemoveParams) => Promise<boolean>
+  getDays: () => Promise<string[]>
 }

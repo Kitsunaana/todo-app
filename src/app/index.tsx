@@ -10,10 +10,17 @@ export const App = () => {
     })
     .then(console.log) */
 
-  todoService
-    .getById({ todoId: "PKgi60duEezUCJbq1IdAj" })
+
+  todoService.getDays()
     .then(console.log)
-    .catch(console.log)
+
+  todoService.getAll({ date: "30.01.2025" })
+    .then(console.log)
+
+  /*todoService.create({
+    caption: "Для теста",
+    completed: false,
+  })*/
 
   /* todoService
     .update({

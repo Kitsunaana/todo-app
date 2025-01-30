@@ -6,16 +6,20 @@ import {
   todosSchema
 } from "../domain/schemas";
 import { ITodo, ITodoFields } from "../domain/types";
-import { ITodoGetByIdParams, ITodoListApi, ITodoRemoveParams } from "../api/interface"
+import {ITodoGetAllParams, ITodoGetByIdParams, ITodoListApi, ITodoRemoveParams} from "../api/interface"
 import { mockTodoListApi } from "../api/mock-api"
 
 class TodoService {
   public constructor(private readonly todoListApi: ITodoListApi) { }
 
-  public async getAll(): Promise<ITodo[]> {
-    const todos = await this.todoListApi.getAll()
+  public async getAll(params?: ITodoGetAllParams): Promise<ITodo[]> {
+    const todos = await this.todoListApi.getAll(params)
 
     return todosSchema.validate(todos)
+  }
+
+  public async getDays(): Promise<string[]> {
+    return await this.todoListApi.getDays( )
   }
 
   public async getById(params: ITodoGetByIdParams): Promise<ITodo> {

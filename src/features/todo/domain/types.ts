@@ -1,6 +1,5 @@
 export interface ITodoFields {
   caption: string
-  description: string
   completed: boolean
 }
 

@@ -30,8 +30,36 @@ const findTodoIndex = (id: string, todos: ITodo[]) => {
 }
 
 export const mockTodoListApi: ITodoListApi = {
-  getAll: async () => sleep(1000)
-    .then(readTodos),
+  getAll: async (params) => (
+    sleep(1000)
+      .then(() => {
+        const todos = readTodos()
+
+        if (params?.date) {
+          return todos.filter((todo) => {
+            const todoDate = new Date(todo.createdAt).toLocaleDateString()
+
+            return todoDate === params.date
+          })
+        }
+
+        return todos
+      })
+  ),
+
+  getDays: async () => (
+    sleep(1000)
+      .then(() => {
+        const todos = readTodos()
+
+        return todos.reduce<string[]>((result, todo) => {
+          const date = new Date(todo.createdAt).toLocaleDateString()
+
+          if (result.includes(date)) return result
+          return result.concat(date)
+        }, [])
+      })
+  ),
 
   getById: async (params) => (
     sleep(1000)
