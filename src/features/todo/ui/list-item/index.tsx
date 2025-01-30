@@ -1,14 +1,18 @@
-import {TrashIcon} from "../../../../shared/ui";
+import {Checkbox, TrashIcon} from "../../../../shared/ui";
 import clsx from "clsx";
 
 export const ListItem = ({
   caption,
   disabled,
+  completed,
   onRemove,
+  onToggle,
 }: {
   caption: string
+  completed: boolean
   disabled: boolean
   onRemove: () => void
+  onToggle: (checked: boolean) => void
 }) => {
   return (
     <div
@@ -16,7 +20,14 @@ export const ListItem = ({
         "opacity-75": disabled
       })}
     >
-      <span>{caption}</span>
+      <div className="flex gap-2 items-center">
+        <Checkbox
+          name="completed"
+          checked={completed}
+          onChange={(_, checked) => onToggle(checked)}
+        />
+        <span>{caption}</span>
+      </div>
 
       <div className="flex items-center gap-2">
         <button

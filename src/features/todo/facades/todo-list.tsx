@@ -9,6 +9,7 @@ import {todoQueryOptions} from "../model/query-options.ts";
 import {ListItem} from "../ui/list-item";
 import {useCaseRemoveTodo} from "../model/use-case-remove-todo.ts";
 import {SidebarListItem} from "../ui/sidebar-list-item";
+import {useCaseUpdateTodo} from "../model/use-case-update-todo.ts";
 
 export const TodoList = () => {
   const days = useQuery(todoQueryOptions.getTodoDays())
@@ -16,6 +17,7 @@ export const TodoList = () => {
   const getTodos = useCaseGetTodos()
   const createTodo = useCaseCreateTodo()
   const removeTodo = useCaseRemoveTodo()
+  const updateTodo = useCaseUpdateTodo({ date: getTodos.selectDate })
 
   return (
     <Layout
@@ -43,6 +45,10 @@ export const TodoList = () => {
               {...other}
               key={key}
               disabled={removeTodo.getIsDisabled(other.id)}
+              onToggle={(checked) => updateTodo.handleToggle({
+                ...other,
+                completed: checked
+              })}
               onRemove={() => removeTodo.handleRemove({
                 todoId: other.id
               })}
@@ -59,3 +65,4 @@ export const TodoList = () => {
     />
   )
 }
+

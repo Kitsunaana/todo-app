@@ -13,10 +13,10 @@ export interface ITodoGetAllParams {
 }
 
 export interface ITodoListApi {
-  getAll: (params?: ITodoGetAllParams) => Promise<ITodo[]>
+  getAll: (params: ITodoGetAllParams) => Promise<ITodo[]>
   getById: (params: ITodoGetByIdParams) => Promise<ITodo>
   create: (payload: ITodoFields) => Promise<ITodo>
-  update: (payload: ITodo) => Promise<ITodo>
+  update: (payload: Partial<ITodo> & { id: string }) => Promise<ITodo>
   remove: (id: ITodoRemoveParams) => Promise<boolean>
   getDays: () => Promise<string[]>
 }

@@ -1,5 +1,4 @@
 import {BurgerIcon, CalendarIcon} from "../../../../shared/ui";
-import {SidebarListItem} from "../sidebar-list-item";
 import {ReactNode} from "react";
 
 type ListItemIconProps = {
