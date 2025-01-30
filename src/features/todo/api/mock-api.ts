@@ -3,11 +3,10 @@ import { mockLocalStorage } from "../../../shared/local-storage"
 import { sleep } from "../../../shared/utils"
 import { todosSchema } from "../domain/schemas"
 import { ITodo } from "../domain/types"
+import defaultTodos from "./default-todos.json"
 import { ITodoListApi } from "./interface"
 
 const STORAGE_KEY = "todos-kit"
-
-const initState = () => mockLocalStorage.add(STORAGE_KEY, [])
 
 const readTodos = (): ITodo[] => {
   try {
@@ -17,8 +16,9 @@ const readTodos = (): ITodo[] => {
       validate: (value) => todosSchema.validateSync(value)
     })
   } catch (error) {
-    initState()
-    return []
+    console.log(error)
+    mockLocalStorage.add(STORAGE_KEY, defaultTodos)
+    return defaultTodos
   }
 }
 
